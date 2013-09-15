@@ -1,0 +1,9 @@
+This is a work-in progress rom for the acer iconia a110 tablet.  I am not responsible for anything that could happen to your device.
+
+To Install(make sure you are using correct tablet with CWM recovery)
+1:Copy .zip to sd-card
+2:Factory reset/wipe data
+3:Boot into recovery
+4:wipe cache and delvik cache
+5:Flash Rom
+6:Enjoy
