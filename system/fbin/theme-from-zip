@@ -1,0 +1,17 @@
+#!/cache/recovery/busybox sh
+export PATH=/cache/recovery:$PATH
+
+
+theme_zip=$1;
+tmp_folder=$2
+
+echo "cleaning ...";
+if [ -e $tmp_folder ]; then
+	/cache/recovery/busybox rm -rf $tmp_folder;
+fi;
+/cache/recovery/busybox mkdir -p $tmp_folder;
+echo "unzipping ...";
+/cache/recovery/busybox unzip -q $theme_zip -d $tmp_folder;
+
+sh /cache/recovery/theme-from-folder $tmp_folder
+/cache/recovery/busybox rm -r $tmp_folder

@@ -1,0 +1,36 @@
+#!/cache/recovery/busybox sh
+export PATH=/cache/recovery:$PATH
+
+src_folder=$1
+dst_folder="/system"
+
+cd $src_folder;
+for apk in `/cache/recovery/busybox ls -A1`; do
+	if [ -d $apk ]; then
+		if [ -f $dst_folder/app/$apk.apk ]; then
+			filename=$dst_folder/app/$apk.apk
+		elif [ -f $dst_folder/framework/$apk.apk ]; then
+			filename=$dst_folder/framework/$apk.apk
+		else
+			echo "skipping $apk"
+			continue;
+		fi;
+		cd $apk;
+		echo "theming $apk ...";
+		/cache/recovery/zip -rq $filename res;
+		if [ -f resources.arsc ]; then
+			/cache/recovery/zip -q $filename resources.arsc;
+		fi
+		cd ..;
+		
+		echo "zipaligning $apk ..."
+		new_file=$filename\_new
+		/cache/recovery/zipalign 4 $filename $new_file
+		if [ -f $new_file ]; then
+			/cache/recovery/busybox mv -f $new_file $filename 
+		else
+			echo "Error: Unable to zipalign $apk"
+		fi
+	fi;
+done;
+echo "DONE!";
